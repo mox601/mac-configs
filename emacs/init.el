@@ -16,7 +16,7 @@
  '(helm-ag-base-command "/usr/local/bin/pt -e --nocolor --nogroup")
  '(package-selected-packages
    (quote
-    (magit-popup ghub with-editor dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
+    (which-key magit-popup ghub with-editor dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -30,15 +30,14 @@
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
-
 (require 'package)
 
 (add-to-list 'package-archives 
-	'("marmalade" . "https://marmalade-repo.org/packages/"))  
+  '("marmalade" . "https://marmalade-repo.org/packages/"))  
 (add-to-list 'package-archives 
-	'("melpa" . "http://melpa.org/packages/") t)
+  '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives
-	'("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+  '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 
 ;; Initialize all the ELPA packages (what is installed using the packages commands)    
 (package-initialize)
@@ -72,6 +71,7 @@
 (global-set-key (kbd "M-s") 'helm-do-ag)
 
 ;; neotree https://github.com/jaypei/emacs-neotree
+;; side bar
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 ; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
@@ -141,7 +141,7 @@
 (ido-mode 1)
 (setq ido-enable-flex-matching t)
 ;; IF you want Ido mode to work with C-x C-f (find-files) then add this as well:
-;; (setq ido-everywhere t)
+(setq ido-everywhere t)
 
 ;; add lein to executable path
 (add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
@@ -152,6 +152,17 @@
 
 ;; always show line numbers
 (global-linum-mode t)
+
+;; TODO Rebinding the CAPS LOCK key
+
+;; Making Emacs Auto Indent
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
+;; it makes C-n insert newlines if the point is at the end of the buffer.
+(setq next-line-add-newlines t)
+
+;; which-key
+
 
 ;; Noninteractively upgrade all packages
 ;; https://emacs.stackexchange.com/questions/16398/noninteractively-upgrade-all-packages
