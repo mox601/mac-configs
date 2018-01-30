@@ -16,7 +16,7 @@
  '(helm-ag-base-command "/usr/local/bin/pt -e --nocolor --nogroup")
  '(package-selected-packages
    (quote
-    (which-key magit-popup ghub with-editor dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
+    (avy which-key magit-popup ghub with-editor dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -28,10 +28,14 @@
 ;; Define packages archives repositories
 (require 'package)
 
+;;themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
 
-(require 'package)
+;; load monokai theme
+;;To load it automatically on Emacs startup add this to your init file:
+(load-theme 'monokai t)
 
+;; package archives
 (add-to-list 'package-archives 
   '("marmalade" . "https://marmalade-repo.org/packages/"))  
 (add-to-list 'package-archives 
@@ -42,68 +46,27 @@
 ;; Initialize all the ELPA packages (what is installed using the packages commands)    
 (package-initialize)
 
+
+;;;;; general
 ;; UTF-8 as default encoding
 (set-language-environment "UTF-8")
 
 ;; Set the default comment column to 70
 (setq-default comment-column 70)
 
-;; To use company-mode in all buffers, add the following line to your init file:
-(add-hook 'after-init-hook 'global-company-mode)
-
-;;To load it automatically on Emacs startup add this to your init file:
-(load-theme 'monokai t)
-
-;; Show parenthesis mode
-(show-paren-mode 1)
-
-;; rainbow delimiters
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
+;; mouse scrolling
 ;; scroll one line at a time (less "jumpy" than defaults)
 (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))) ;; one line at a time
 (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 
-;; Configure helm-ag
-;; Make sure to have Platinum Searcher installed: https://github.com/monochromegane/the_platinum_searcher
-(global-set-key (kbd "M-s") 'helm-do-ag)
-
-;; neotree https://github.com/jaypei/emacs-neotree
-;; side bar
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-
-;; https://sdqali.in/blog/2012/05/04/fixing-flyspell-for-emacs-in-mac-os-x/
+;; path https://sdqali.in/blog/2012/05/04/fixing-flyspell-for-emacs-in-mac-os-x/
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-;; flyspell
-(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
-
-;; pretty org-bullets https://github.com/sabof/org-bullets
-(require 'org-bullets)
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-(setq org-ellipsis "⤵")
-(setq org-src-fontify-natively t)
-(setq org-src-tab-acts-natively t)
-(setq org-src-window-setup 'current-window)
-(add-hook 'org-mode-hook 'flyspell-mode)
-
-;; These two lines are just examples
-;; (setq powerline-arrow-shape 'curve)
-;; (setq powerline-default-separator-dir '(right . left))
-;; These two lines you really need.
-;; (setq sml/theme 'powerline)
-(sml/setup)
-
-;; org mode http://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
-(require 'org)
-(define-key global-map "\C-cl" 'org-store-link)
-(define-key global-map "\C-ca" 'org-agenda)
-(setq org-log-done t)
+;; add lein to executable path
+(add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
 
 ;; sensible defaults https://github.com/hrs/sensible-defaults.el
 (load-file "~/.emacs.d/sensible-defaults.el")
@@ -124,14 +87,60 @@
 (sensible-defaults/bind-commenting-and-uncommenting)
 (sensible-defaults/bind-keys-to-change-text-size)
 
+;;company mode
+;; To use company-mode in all buffers, add the following line to your init file:
+(add-hook 'after-init-hook 'global-company-mode)
+
+;; Show parenthesis mode
+(show-paren-mode 1)
+
+;; rainbow delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; Configure helm-ag
+;; Make sure to have Platinum Searcher installed: https://github.com/monochromegane/the_platinum_searcher
+(global-set-key (kbd "M-s") 'helm-do-ag)
+
+;; neotree https://github.com/jaypei/emacs-neotree
+;; side bar
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
+; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+
+;; flyspell
+(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
+
+;; org mode http://orgmode.org/worg/org-tutorials/orgtutorial_dto.html
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+
+;; org mode
+;; pretty org-bullets https://github.com/sabof/org-bullets
+(require 'org-bullets)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+(setq org-ellipsis "⤵")
+(setq org-src-fontify-natively t)
+(setq org-src-tab-acts-natively t)
+(setq org-src-window-setup 'current-window)
+(add-hook 'org-mode-hook 'flyspell-mode)
+
+;; org mode agenda
+(setq org-agenda-files (list "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org"
+                             "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/work.org"))
+
+;; smart mode line
+;; These two lines are just examples
+;; (setq powerline-arrow-shape 'curve)
+;; (setq powerline-default-separator-dir '(right . left))
+;; These two lines you really need.
+;; (setq sml/theme 'powerline)
+(sml/setup)
+
 ;; https://github.com/hrs/dotfiles/blob/master/emacs/.emacs.d/configuration.org
 ;; exporting
 (require 'ox-beamer)
-
-;; org mode agenda
-"/Users/mox/Dropbox/Desktop-lifehacker/documents/org"
-(setq org-agenda-files (list "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org"
-                             "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/work.org"))
 
 ;; magit
 (global-set-key (kbd "C-x g") 'magit-status)
@@ -142,9 +151,6 @@
 (setq ido-enable-flex-matching t)
 ;; IF you want Ido mode to work with C-x C-f (find-files) then add this as well:
 (setq ido-everywhere t)
-
-;; add lein to executable path
-(add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
 
 ;; cider
 ;; pretty printing
@@ -163,6 +169,16 @@
 
 ;; which-key
 
+;; avy
+(global-set-key (kbd "C-:") 'avy-goto-char)
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
+(global-set-key (kbd "M-g w") 'avy-goto-word-1)
+(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+
+;; window size
+(add-to-list 'default-frame-alist '(height . 70))
+(add-to-list 'default-frame-alist '(width . 140))
 
 ;; Noninteractively upgrade all packages
 ;; https://emacs.stackexchange.com/questions/16398/noninteractively-upgrade-all-packages
