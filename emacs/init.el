@@ -16,7 +16,7 @@
  '(helm-ag-base-command "/usr/local/bin/pt -e --nocolor --nogroup")
  '(package-selected-packages
    (quote
-    (avy which-key magit-popup ghub with-editor dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
+    (exec-path-from-shell with-editor magit-popup avy which-key ghub dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -41,11 +41,12 @@
 (add-to-list 'package-archives 
   '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives
-  '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+  '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+; (add-to-list 'package-archives
+;   '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 
 ;; Initialize all the ELPA packages (what is installed using the packages commands)    
 (package-initialize)
-
 
 ;;;;; general
 ;; UTF-8 as default encoding
@@ -61,12 +62,18 @@
 (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
 (setq scroll-step 1) ;; keyboard scroll one line at a time
 
+
+;; exec path from shell https://github.com/purcell/exec-path-from-shell
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 ;; path https://sdqali.in/blog/2012/05/04/fixing-flyspell-for-emacs-in-mac-os-x/
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;; add lein to executable path
 (add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
+;; (setq exec-path (append exec-path '("/Users/mox/Dati/shared_libraries/lein/")))
 
 ;; sensible defaults https://github.com/hrs/sensible-defaults.el
 (load-file "~/.emacs.d/sensible-defaults.el")
@@ -159,8 +166,6 @@
 ;; always show line numbers
 (global-linum-mode t)
 
-;; TODO Rebinding the CAPS LOCK key
-
 ;; Making Emacs Auto Indent
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
@@ -168,13 +173,9 @@
 (setq next-line-add-newlines t)
 
 ;; which-key
-
-;; avy
-(global-set-key (kbd "C-:") 'avy-goto-char)
-(global-set-key (kbd "C-'") 'avy-goto-char-2)
-(global-set-key (kbd "M-g f") 'avy-goto-line)
-(global-set-key (kbd "M-g w") 'avy-goto-word-1)
-(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+(require 'which-key)
+(which-key-mode)
+(which-key-setup-side-window-bottom)
 
 ;; window size
 (add-to-list 'default-frame-alist '(height . 70))
