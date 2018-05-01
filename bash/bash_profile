@@ -1,0 +1,93 @@
+# git autocomplete
+source /usr/local/etc/bash_completion.d/git-completion.bash
+GIT_PS1_SHOWDIRTYSTATE=true
+## export PS1='[\u@mbp \w$(__git_ps1)]\$ '
+export PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h: \[\e[33m\]\w\[\e[0m\]\n\$ "
+
+# brew completion
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+
+source ~/.iterm2_shell_integration.`basename $SHELL`
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+# cuda
+export CUDA_HOME="/usr/local/cuda"
+export DYLD_LIBRARY_PATH="$DYLD_LIBRARY_PATH:$CUDA_HOME/lib"
+export PATH="$CUDA_HOME/bin:$PATH"
+
+export SHARED_LIBS="$HOME/Dati/shared_libraries"
+export JAVA_8="/Library/Java/JavaVirtualMachines/jdk1.8.0_111.jdk/Contents/Home"
+export JAVA_9="$SHARED_LIBS/jdk-9.0.4.jdk/Contents/Home/"
+export JAVA_10="$SHARED_LIBS/jdk-10.jdk/Contents/Home/"
+export JAVA_11="$SHARED_LIBS/jdk-11.jdk/Contents/Home/"
+export JAVA_HOME="$JAVA_8"
+export MAVEN_339="$SHARED_LIBS/apache-maven-3.3.9/bin"
+export MAVEN_353="$SHARED_LIBS/apache-maven-3.5.3/bin"
+export MAVEN_BIN="$MAVEN_353"
+export LEIN_HOME="$SHARED_LIBS/lein"
+export LOCAL_BIN="$HOME/.local/bin"
+export HASKELL_BIN="$HOME/Library/Haskell/bin"
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+export PATH="$CUDA_HOME/bin:$PATH"
+export PATH="$JAVA_HOME/bin:$PATH"
+export PATH="$MAVEN_BIN:$PATH"
+export PATH="$LEIN_HOME:$PATH"
+export PATH="$LOCAL_BIN:$PATH"
+export PATH="$HASKELL_BIN:$PATH"
+
+### aliases ###
+
+## Colorize the ls output ##
+alias ls='ls -G'
+## Use a long listing format ##
+alias ll='ls -la' 
+## Show hidden files ##
+alias l.='ls -d .* --color=auto'
+
+## get rid of command not found ##
+alias cd..='cd ..' 
+ 
+## a quick way to get out of current directory ##
+alias ..='cd ..' 
+alias ...='cd ../../../' 
+alias ....='cd ../../../../' 
+alias .....='cd ../../../../' 
+alias .4='cd ../../../../' 
+alias .5='cd ../../../../..'
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m' #requires a commit message
+alias gp='git push'
+alias grm='git rm $(git ls-files --deleted)'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+alias path='echo -e ${PATH//:/\\n}'
+alias now='date +"%T"'
+alias nowtime=now
+alias nowdate='date +"%d-%m-%Y"'
+
+# Stop after sending count ECHO_REQUEST packets #
+alias ping='ping -c 5'
+# Do not wait interval 1 second, go fast #
+alias fastping='ping -c 100 -s.2'
+
+## resume
+alias wget='wget -c'
+
+## set some other defaults ##
+alias df='df -H'
+alias du='du -ch'
+
+alias chrome="open -a \"Google Chrome\""
+
+# reload your bash config
+alias resource="source ~/.bash_profile"
