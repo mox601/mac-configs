@@ -139,7 +139,8 @@
                              ;; make the lines in the buffer wrap around the edges of the screen.
                              ;; to press C-c q  or fill-paragraph ever again!
                              (visual-line-mode)
-                             (org-indent-mode)))
+                             ;; (org-indent-mode)
+                             ))
 
 ;; org mode agenda
 (setq org-agenda-files (list "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org"
