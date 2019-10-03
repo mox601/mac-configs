@@ -100,6 +100,12 @@
 ;; To use company-mode in all buffers, add the following line to your init file:
 (add-hook 'after-init-hook 'global-company-mode)
 
+;; flycheck https://www.flycheck.org/en/latest/user/quickstart.html
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
+;; https://github.com/borkdude/flycheck-clj-kondo
+(require 'flycheck-clj-kondo)
+
 ;; Show parenthesis mode
 (show-paren-mode 1)
 
@@ -145,6 +151,8 @@
 ;; org mode agenda
 (setq org-agenda-files (list "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org"
                              "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/work.org"))
+;; org mode capture
+(setq org-default-notes-file (concat org-directory "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/notes.org"))
 
 ;; smart mode line
 ;; These two lines are just examples
