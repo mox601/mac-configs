@@ -19,7 +19,8 @@
     ("/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org" "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/work.org")))
  '(package-selected-packages
    (quote
-    (multiple-cursors idris-mode lv parseclj yasnippet hydra clj-refactor transient eyebrowse tablist sesman minimap eww-lnum pdf-tools exec-path-from-shell with-editor magit-popup avy which-key ghub dash async git-commit helm-core rich-minority powerline popup pkg-info ht helm flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##)))
+    (centaur-tabs paredit parseedn bind-key treepy all-the-icons helm-org parinfer use-package drag-stuff paradox let-alist ob-restclient helm multiple-cursors idris-mode lv parseclj yasnippet hydra clj-refactor transient eyebrowse tablist sesman minimap eww-lnum pdf-tools exec-path-from-shell with-editor magit-popup avy which-key ghub dash async git-commit helm-core rich-minority powerline popup pkg-info ht flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##)))
+ '(paradox-github-token t)
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -31,6 +32,54 @@
 ;; from http://fgiasson.com/blog/index.php/2016/06/14/my-optimal-gnu-emacs-settings-for-developing-clojure-revised/
 ;; Define packages archives repositories
 (require 'package)
+
+;; use-package https://github.com/jwiegley/use-package
+;; This is only needed once, near the top of the file
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  ;; (add-to-list 'load-path "<path where use-package is installed>")
+  (require 'use-package))
+
+
+;; centaur-tabs https://github.com/ema2159/centaur-tabs
+(use-package centaur-tabs
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
+(setq centaur-tabs-style "rounded")
+(setq centaur-tabs-set-icons t)
+(setq centaur-tabs-set-bar 'over)
+(setq centaur-tabs-set-modified-marker t)
+(setq centaur-tabs-modified-marker "*")
+
+;; parinfer https://github.com/DogLooksGood/parinfer-mode
+;; TODO how to add hook on clojure/cider mode?
+(use-package parinfer
+  :ensure t
+  :bind
+  (("C-," . parinfer-toggle-mode))
+  :init
+  (progn
+    (setq parinfer-extensions
+          '(defaults       ; should be included.
+            pretty-parens  ; different paren styles for different modes.
+            evil           ; If you use Evil.
+            lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+            paredit        ; Introduce some paredit commands.
+            smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+            smart-yank))   ; Yank behavior depend on mode.
+    (add-hook 'clojure-mode-hook #'parinfer-mode)
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode)))
+
+
+;; https://github.com/jtbm37/all-the-icons-dired
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 ;;themes
 (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
@@ -120,7 +169,7 @@
 ;; side bar
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
-; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 ;; flyspell
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
@@ -160,7 +209,23 @@
 ;; (setq powerline-default-separator-dir '(right . left))
 ;; These two lines you really need.
 ;; (setq sml/theme 'powerline)
-(sml/setup)
+;; (sml/setup)
+
+(require 'telephone-line)
+(setq telephone-line-height 20)
+(setq telephone-line-lhs
+      '((evil   . (telephone-line-evil-tag-segment))
+        (accent . (telephone-line-vc-segment
+                   telephone-line-erc-modified-channels-segment
+                   telephone-line-process-segment))
+        (nil    . (telephone-line-minor-mode-segment
+                   telephone-line-buffer-segment))))
+(setq telephone-line-rhs
+      '((nil    . (telephone-line-misc-info-segment))
+        (accent . (telephone-line-major-mode-segment))
+        (evil   . (telephone-line-airline-position-segment))))
+;; all config should happen before this
+(telephone-line-mode 1)
 
 ;; https://github.com/hrs/dotfiles/blob/master/emacs/.emacs.d/configuration.org
 ;; exporting
@@ -214,6 +279,23 @@
     (cljr-add-keybindings-with-prefix "C-c C-r"))
 
 (add-hook 'clojure-mode-hook #'my-clojure-mode-hook)
+
+;; due to https://github.com/pashky/restclient.el/issues/212
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+;; org babel restclient
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((restclient . t)))
+
+;; drag stuff https://github.com/rejeep/drag-stuff.el
+;; TODO enable only in non org non clojure
+;; (drag-stuff-mode t)
+;; (drag-stuff-global-mode 1)
+;; (drag-stuff-define-keys)
+
+
+
 
 ;; Noninteractively upgrade all packages
 ;; https://emacs.stackexchange.com/questions/16398/noninteractively-upgrade-all-packages
