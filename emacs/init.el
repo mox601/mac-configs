@@ -158,6 +158,17 @@
 ;; Show parenthesis mode
 (show-paren-mode 1)
 
+;; TODO it works! find the right height. 1.5 is almost right
+; (add-hook 'minibuffer-setup-hook 'my-minibuffer-setup)
+; (defun my-minibuffer-setup ()
+;        (set (make-local-variable 'face-remapping-alist)
+;           '((default :height 1.5))))
+
+; alternatives
+;; https://www.reddit.com/r/emacs/comments/a6p7qr/blog_post_how_to_change_emacs_font_with/?sort=confidence
+;; https://github.com/nabeix/emacs-font-size
+
+
 ;; rainbow delimiters
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
@@ -294,8 +305,19 @@
 ;; (drag-stuff-global-mode 1)
 ;; (drag-stuff-define-keys)
 
+;; more stuff
 
+;; helm-config
+(require 'helm)
+(require 'helm-config)
 
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x m") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; C-l to go up a directory
 
 ;; Noninteractively upgrade all packages
 ;; https://emacs.stackexchange.com/questions/16398/noninteractively-upgrade-all-packages
