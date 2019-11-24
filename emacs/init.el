@@ -316,7 +316,8 @@
 (global-set-key (kbd "C-x b") 'helm-buffers-list)
 (global-set-key (kbd "C-x m") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+;; it's better the emacs way
+;; (global-set-key (kbd "C-x C-f") 'helm-find-files)
 ;; C-l to go up a directory
 
 ;; Noninteractively upgrade all packages
