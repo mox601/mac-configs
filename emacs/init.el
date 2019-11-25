@@ -19,7 +19,7 @@
     ("/Users/mox/Dropbox/Desktop-lifehacker/documents/org/personal.org" "/Users/mox/Dropbox/Desktop-lifehacker/documents/org/work.org")))
  '(package-selected-packages
    (quote
-    (centaur-tabs paredit parseedn bind-key treepy all-the-icons helm-org parinfer use-package drag-stuff paradox let-alist ob-restclient helm multiple-cursors idris-mode lv parseclj yasnippet hydra clj-refactor transient eyebrowse tablist sesman minimap eww-lnum pdf-tools exec-path-from-shell with-editor magit-popup avy which-key ghub dash async git-commit helm-core rich-minority powerline popup pkg-info ht flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##)))
+    (ace-window pt centaur-tabs paredit parseedn bind-key treepy all-the-icons helm-org parinfer use-package drag-stuff paradox let-alist ob-restclient helm multiple-cursors idris-mode lv parseclj yasnippet hydra clj-refactor transient eyebrowse tablist sesman minimap eww-lnum pdf-tools exec-path-from-shell with-editor magit-popup avy which-key ghub dash async git-commit helm-core rich-minority powerline popup pkg-info ht flycheck epl clojure-mode ztree magit rainbow-mode csv-mode flycheck-ledger ledger-mode telephone-line smart-mode-line-powerline-theme smart-mode-line ox-epub ox-pandoc ox-twbs org-bullets org neotree helm-ag highlight-symbol rainbow-delimiters cider company ##)))
  '(paradox-github-token t)
  '(show-paren-mode t))
 (custom-set-faces
@@ -175,6 +175,9 @@
 ;; Configure helm-ag
 ;; Make sure to have Platinum Searcher installed: https://github.com/monochromegane/the_platinum_searcher
 (global-set-key (kbd "M-s") 'helm-do-ag)
+
+;; ace-window
+(global-set-key (kbd "M-p") 'ace-window)
 
 ;; neotree https://github.com/jaypei/emacs-neotree
 ;; side bar
