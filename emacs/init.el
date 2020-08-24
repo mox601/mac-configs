@@ -3,7 +3,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;; (package-initialize)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -40,6 +40,15 @@
   ;; (add-to-list 'load-path "<path where use-package is installed>")
   (require 'use-package))
 
+;; package archives
+(add-to-list 'package-archives 
+  '("marmalade" . "https://marmalade-repo.org/packages/"))  
+(add-to-list 'package-archives 
+  '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives
+  '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+; (add-to-list 'package-archives
+;   '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
 
 ;; centaur-tabs https://github.com/ema2159/centaur-tabs
 (use-package centaur-tabs
@@ -88,16 +97,6 @@
 ;;To load it automatically on Emacs startup add this to your init file:
 (load-theme 'monokai t)
 
-;; package archives
-(add-to-list 'package-archives 
-  '("marmalade" . "https://marmalade-repo.org/packages/"))  
-(add-to-list 'package-archives 
-  '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives
-  '("melpa-stable" . "https://stable.melpa.org/packages/") t)
-; (add-to-list 'package-archives
-;   '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
-
 ;; Initialize all the ELPA packages (what is installed using the packages commands)    
 (package-initialize)
 
@@ -124,7 +123,7 @@
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
 ;; add lein to executable path
-(add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
+;; (add-to-list 'exec-path "/Users/mox/Dati/shared_libraries/lein/")
 
 ;; sensible defaults https://github.com/hrs/sensible-defaults.el
 (load-file "~/.emacs.d/sensible-defaults.el")
@@ -178,12 +177,6 @@
 
 ;; ace-window
 (global-set-key (kbd "M-p") 'ace-window)
-
-;; neotree https://github.com/jaypei/emacs-neotree
-;; side bar
-(require 'neotree)
-(global-set-key [f8] 'neotree-toggle)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 ;; flyspell
 (autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
